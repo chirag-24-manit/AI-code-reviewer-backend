@@ -4,6 +4,8 @@ const crypto = require("crypto");
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const webhookController = async (req, res) => {
+  const startTime = performance.now();
+
   // HMAC security
   const signature = req.headers["x-hub-signature-256"];
   if (!signature) {
@@ -126,6 +128,11 @@ const webhookController = async (req, res) => {
       }
     }
   }
+
+  const endTime = performance.now();
+  const executionTime = endTime - startTime;
+
+  console.log(executionTime);
 };
 
 module.exports = { webhookController };
